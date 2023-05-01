@@ -4,6 +4,13 @@ class TodoList {
   constructor(name) {
     this.name = name;
     this.items = [];
+    this._id = TodoList.incrementId()
+  }
+
+  static incrementId() {
+    if (!this.latestId) this.latestId = 1
+    else this.latestId++
+    return this.latestId
   }
 
   addItem(title, description, dueDate, priority) {
