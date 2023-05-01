@@ -4,13 +4,16 @@ import TodoList from '../objects/TodoList.js';
 import Todo from '../objects/Todo.js';
 
 const todoListComponent = (todos) => {
-    console.log(todos)
+    console.log(todos.items)
     return html`
     <ul id="taskList" class="menu-list"> 
     ${repeat(todos.items, (item) => item.title, (item, index) => html`
       <li>
+      <span class="material-symbols-outlined">
+expand_more
+</span>
       <input type="checkbox" name="done" id="done">  
-      <label for="done">${item.title}: ${item.description}</label>
+      <label for="done" class="subtitle">${item.title}: ${item.description}</label>
       </li>
     `)}
     </ul>
@@ -34,6 +37,7 @@ const clickHandler = {
         const Lista = document.querySelector("#taskinquestion")
         if (taskinquestion.value) {
             console.log(taskinquestion.value);
+            const newtodo = new Todo(taskinquestion.value, '', '', '1');
         }
     },
     // event listener objects can also define zero or more of the event
