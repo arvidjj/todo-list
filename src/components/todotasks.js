@@ -1,7 +1,14 @@
 import { html, render } from "lit-html";
 import { repeat } from 'lit-html/directives/repeat.js';
+import * as ListsController from '../objects/ListsController.js'
 import TodoList from '../objects/TodoList.js';
 import Todo from '../objects/Todo.js';
+
+
+const renderTaskListHere = document.querySelector('#tasks')
+const renderTasksTitleHere = document.querySelector('#taskstitle')
+const renderTasksOptionsHere = document.querySelector('#tasksoptions')
+
 
 const todoListComponent = (todos) => {
     console.log(todos.items)
@@ -22,7 +29,6 @@ expand_more
     ;
 
 const todoListTitleComponent = (todoList) => {
-    //console.log(todoList)
     return html`
     <p class="title"><span class="material-symbols-outlined">
 arrow_forward_ios
@@ -31,18 +37,11 @@ arrow_forward_ios
 }
     ;
 
-const clickHandler = {
-    // handleEvent method is required.
-    handleEvent(e) {
-        const Lista = document.querySelector("#taskinquestion")
-        if (taskinquestion.value) {
-            console.log(taskinquestion.value);
-            const newtodo = new Todo(taskinquestion.value, '', '', '1');
-        }
-    },
-    // event listener objects can also define zero or more of the event
-    // listener options: capture, passive, and once.
-    capture: true,
+const handleClick = (item) => {
+    //ListsController.getList(item.name);
+    const newTask = document.querySelector("#taskinquestion");
+    ListsController.getList(item.name).addItem(newTask.value, "", "", 0);
+    renderTodoList(item)
 };
 
 const todoListOptionsComponent = (todoList) => {
@@ -52,7 +51,7 @@ const todoListOptionsComponent = (todoList) => {
     <input class="input" type="text" placeholder="Task 1..." id="taskinquestion">
   </div>
   <div class="control">
-    <a class="button is-success" @click=${clickHandler}>
+    <a class="button is-success" @click=${() => handleClick(todoList)}>
     <span class="material-symbols-outlined">
     add
     </span>Add
@@ -64,4 +63,11 @@ const todoListOptionsComponent = (todoList) => {
 }
     ;
 
-export { todoListComponent, todoListTitleComponent, todoListOptionsComponent };
+function renderTodoList(list) {
+    render(todoListTitleComponent(list), renderTasksTitleHere);
+    render(todoListOptionsComponent(list), renderTasksOptionsHere);
+    render(todoListComponent(list), renderTaskListHere);
+}
+
+
+export { renderTodoList };

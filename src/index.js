@@ -1,18 +1,15 @@
 import {html, render} from 'lit-html';
 import './style/main.css';
-import header from './components/header.js';
+import header from './components/Header.js';
 import TodoList from './objects/TodoList.js';
 import Todo from './objects/Todo.js';
-import {todoListComponent, todoListTitleComponent, todoListOptionsComponent}from './components/todotasks.js'
+import { renderTodoList }from './components/TodoTasks.js'
 import { ProjectList } from './components/PList.js';
 
 import * as ListsController from './objects/ListsController.js'
 
 const headerDiv = document.querySelector('header')
 const renderProjectListHere = document.querySelector('#projectlist')
-const renderTaskListHere = document.querySelector('#tasks')
-const renderTasksTitleHere = document.querySelector('#taskstitle')
-const renderTasksOptionsHere = document.querySelector('#tasksoptions')
 
 render(header(), headerDiv);
 
@@ -31,6 +28,4 @@ ListsController.addList(project2);
 ///////////////////// EJEMPLO
 render(ProjectList(ListsController.getLists()), renderProjectListHere)
 
-render(todoListTitleComponent(ListsController.getList('Project 1')), renderTasksTitleHere);
-render(todoListOptionsComponent(ListsController.getList('Project 1')), renderTasksOptionsHere);
-render(todoListComponent(ListsController.getList('Project 1')), renderTaskListHere);
+renderTodoList(ListsController.getList('Project 1'));
