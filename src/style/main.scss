@@ -1,0 +1,25 @@
+.projectList {
+    border-radius: 8px;
+}
+
+#projectlist {
+    ul {
+        li {
+            border-radius: 12px;
+            background-color: hsl(171, 100%, 41%);
+            color: white;
+            font-weight: bold;
+
+            display:flex;
+            margin-left: 0;
+            margin-right: 0;
+            margin-bottom: 15px;
+            padding: 5px;
+            padding-left: 20px;
+            font-size: 1.2em;
+            &:hover {
+                background-color: hsl(120, 57%, 58%);
+            }
+        }
+    }
+}

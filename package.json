@@ -11,15 +11,19 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "css-loader": "^6.7.3",
     "es-dev-server": "^2.1.0",
     "html-renderer-webpack-plugin": "^6.1.1",
     "html-webpack-plugin": "^5.5.1",
+    "sass": "^1.62.1",
+    "sass-loader": "^13.2.2",
     "webpack": "^5.81.0",
     "webpack-cli": "^5.0.2",
     "webpack-dev-server": "^4.13.3"
   },
   "dependencies": {
     "bulma": "^0.9.4",
-    "lit-html": "^2.7.3"
+    "lit-html": "^2.7.3",
+    "style-loader": "^3.3.2"
   }
 }
