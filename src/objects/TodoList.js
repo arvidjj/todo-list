@@ -22,6 +22,12 @@ class TodoList {
     this.items.push(todo);
   }
 
+  modifyTodo(todo, newTodo) {
+    console.log(todo)
+    const index = this.items.findIndex(todo);
+    this.items.splice(index, 1, newTodo);
+  }
+
   removeItem(index) {
     this.items.splice(index, 1);
   }

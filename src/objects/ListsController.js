@@ -1,4 +1,4 @@
-import { TodoList } from './TodoList.js'
+import TodoList from './TodoList.js'
 import { Todo } from './Todo.js'
 
 
@@ -25,4 +25,13 @@ export function addTodoItem(listName, todoItem) {
         //  todoList.render();
         //}
     }
+}
+export function modifyTodoItem(listName, todoItem, newTodoitem) {
+    const list = todoLists.find(list => list.name === listName);
+    list.modifyTodo(todoItem, newTodoitem);
+}
+
+export function addTodoList(name) {
+    const list = new TodoList(name)
+    this.addList(list)
 }

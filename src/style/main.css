@@ -2,6 +2,15 @@
   border-radius: 8px;
 }
 
+#tasks ul li {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+  padding-left: 0.3rem;
+}
+
 #projectlist ul li {
   border-radius: 12px;
   background-color: hsl(171, 100%, 41%);
