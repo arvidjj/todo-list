@@ -5,7 +5,7 @@ class Todo {
       this.dueDate = dueDate;
       this.priority = priority;
       this.isDone = false;
-      this._id = Todo.incrementId()
+      this.id = Todo.incrementId()
     }
 
     static incrementId() {

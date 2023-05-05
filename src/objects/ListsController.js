@@ -20,10 +20,6 @@ export function addTodoItem(listName, todoItem) {
     const list = todoLists.find(list => list.name === listName);
     if (list) {
         list.addTodo(todoItem);
-        //const todoList = document.querySelector(`[data-list="${listName}"]`);
-        //if (todoList) {
-        //  todoList.render();
-        //}
     }
 }
 export function modifyTodoItem(listName, todoItem, newTodoitem) {

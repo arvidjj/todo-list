@@ -23,8 +23,7 @@ class TodoList {
   }
 
   modifyTodo(todo, newTodo) {
-    console.log(todo)
-    const index = this.items.findIndex(todo);
+    const index = this.items.findIndex(item => item === todo);
     this.items.splice(index, 1, newTodo);
   }
 
