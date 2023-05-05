@@ -22,6 +22,14 @@ export function addTodoItem(listName, todoItem) {
         list.addTodo(todoItem);
     }
 }
+
+export function removeTodoItem(listName, todoItem) {
+    const list = todoLists.find(list => list.name === listName);
+    if (list) {
+        list.removeItem(todoItem);
+    }
+}
+
 export function modifyTodoItem(listName, todoItem, newTodoitem) {
     const list = todoLists.find(list => list.name === listName);
     list.modifyTodo(todoItem, newTodoitem);

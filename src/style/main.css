@@ -41,6 +41,7 @@
   background-color: inherit;
   border: none;
   box-shadow: none;
+  height: 2rem;
 }
 .editable-title:hover {
   background-color: lightblue;

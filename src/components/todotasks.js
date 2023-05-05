@@ -4,9 +4,6 @@ import * as ListsController from '../objects/ListsController.js'
 import TodoList from '../objects/TodoList.js';
 import Todo from '../objects/Todo.js';
 
-
-
-
 /////////////////////////
 function editTitle(item, list) {
   const input = event.target;
@@ -112,25 +109,37 @@ const handleChange = (event, item, list) => {
   ListsController.modifyTodoItem(list.name, item, newItem);
   ////
   const listItem = document.querySelector(`#listitem${item.id}`);
-  listItem.className = `${selected == 3 ? 'has-background-danger-light' : ''} ${selected == 2 ? 'has-background-warning-light' : ''}`;
+  listItem.className = `${selected == 3 ? 'is-flex-grow-1 has-background-danger-light' : 'is-flex-grow-1'} ${selected == 2 ? 'is-flex-grow-1 has-background-warning-light' : 'is-flex-grow-1'}`;
   const listDiv = document.querySelector(`#todo${item.id}`);
   listDiv.className = `${selected == 3 ? 'has-background-danger-light p-2' : 'p-2'} ${selected == 2 ? 'has-background-warning-light p-2' : 'p-2'}`;
   renderSelect(newItem, list);
 };
 /////////////////////////////////
 
+function removeTodo(item, list) {
+  ListsController.removeTodoItem(list.name, item)
+  renderTodoList(list)
+}
+
 const todoListComponent = (todos) => {
   return html`
     <ul id="taskList" class="menu-list"> 
     ${repeat(todos.items, (item) => item.title, (item, index) => html`
-      <li id="listitem${item.id}" class="${item.priority == 3 ? 'has-background-danger-light' : ''} ${item.priority == 2 ? 'has-background-warning-light' : ''}">
-      <span class="material-symbols-outlined" style="cursor:pointer;" @click=${() => handleExpandTask(item, todos)}>
-expand_more
-</span>
-      <input type="checkbox" name="done" id="done">  
-      <input type="text" class="input subtitle editable-title" 
-    @click=${() => editTitle(item, todos)} value="${item.title}"/>
-      </li>
+      <div class="is-flex is-flex-wrap-nowrap is-justify-content-space-between">
+        <li id="listitem${item.id}" class="is-flex-grow-1 ${item.priority == 3 ? 'has-background-danger-light' : ''} ${item.priority == 2 ? 'has-background-warning-light' : ''}">
+        <span class="material-symbols-outlined" style="cursor:pointer;" @click=${() => handleExpandTask(item, todos)}>
+        expand_more
+        </span>
+        <input type="checkbox" name="done" id="done">
+        <input type="text" class="input subtitle editable-title" 
+            @click=${() => editTitle(item, todos)} value="${item.title}"/>
+        </li>
+        <button class="button is-danger is-outlined" @click=${() => removeTodo(item, todos)}>
+          <span class="material-symbols-outlined">
+            close
+          </span>
+        </button>
+      </div>
       <div id="todo${item.id}" 
                             class="pl-6 is-hidden ${item.priority == 3 ? 'has-background-danger-light' : ''} ${item.priority == 2 ? 'has-background-warning-light' : ''}
                               p-2" style=""></div>

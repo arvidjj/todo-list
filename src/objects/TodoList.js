@@ -27,7 +27,11 @@ class TodoList {
     this.items.splice(index, 1, newTodo);
   }
 
-  removeItem(index) {
+  removeIndex(index) {
+    this.items.splice(index, 1);
+  }
+  removeItem(todo) {
+    const index = this.items.findIndex(item => item === todo);
     this.items.splice(index, 1);
   }
 
