@@ -26,4 +26,22 @@
 }
 #projectlist ul li:hover {
   background-color: hsl(120, 57%, 58%);
+}
+
+.editable-text {
+  padding: 0.3rem;
+  background-color: inherit;
+}
+.editable-text:hover {
+  background-color: lightblue;
+}
+
+.editable-title {
+  padding: 0;
+  background-color: inherit;
+  border: none;
+  box-shadow: none;
+}
+.editable-title:hover {
+  background-color: lightblue;
 }/*# sourceMappingURL=main.css.map */

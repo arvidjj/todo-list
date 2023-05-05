@@ -5,7 +5,6 @@ import * as ListsController from '../objects/ListsController.js'
 
 const handleAddItem = (item) => {
   renderTodoList(ListsController.getList(item.name));
-  console.log(`You clicked ${item.name}`);
 };
 
 export const ProjectList = (items) => html`

@@ -8,48 +8,77 @@ import Todo from '../objects/Todo.js';
 
 
 /////////////////////////
-function editDescription(item, list) {
-  const span = event.target;
-  span.focus(); // Set focus on the span element
-  let currentValue = span.textContent.trim();
+function editTitle(item, list) {
+  const input = event.target;
+  input.focus(); // Set focus on the input element
 
-  // Add a blur event listener to the span element
-  span.addEventListener('blur', () => {
+  // Add a blur event listener to the input element
+  input.addEventListener('blur', () => {
+    const currentValue = input.value.trim();
+
     // Update the item object with the new value
-    const newItem = { ...item, description: currentValue };
+    const newItem = { ...item, title: currentValue };
     ListsController.modifyTodoItem(list.name, item, newItem);
-    console.log("Descipcion actualizada")
-    // render(myTemplate(item), document.body); // Re-render the template
   });
 
-  // Add a keydown event listener to the span element
-  span.addEventListener('keydown', (event) => {
+  // Add a keydown event listener to the input element
+  input.addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
-      // If the user presses Enter, update the item object with the new value
-      const newItem = { ...item, description: currentValue };
+      event.preventDefault(); // Prevent default behavior of Enter key
+
+      const currentValue = input.value.trim();
+
+      // Update the item object with the new value
+      const newItem = { ...item, title: currentValue };
       ListsController.modifyTodoItem(list.name, item, newItem);
-      // render(myTemplate(item), document.body); // Re-render the template
+      input.blur(); // Trigger blur event to save changes
+      console.log(ListsController.getList(list.name))
     }
   });
 }
 
+function editDescription(item, list) {
+  const input = event.target;
+  input.focus(); // Set focus on the input element
+
+  // Add a blur event listener to the input element
+  input.addEventListener('blur', () => {
+    const currentValue = input.value.trim();
+
+    // Update the item object with the new value
+    const newItem = { ...item, description: currentValue };
+    ListsController.modifyTodoItem(list.name, item, newItem);
+  });
+
+  // Add a keydown event listener to the input element
+  input.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault(); // Prevent default behavior of Enter key
+
+      const currentValue = input.value.trim();
+
+      // Update the item object with the new value
+      const newItem = { ...item, description: currentValue };
+      ListsController.modifyTodoItem(list.name, item, newItem);
+      input.blur(); // Trigger blur event to save changes
+      console.log(ListsController.getList(list.name))
+    }
+  });
+}
 
 const options = [
   { value: '3', label: 'High' },
   { value: '2', label: 'Medium' },
   { value: '1', label: 'Low' }
 ];
-let selected = '';
 
 const handleExpandTask = (item, todos) => {
   const todoDetailsDiv = document.querySelector(`#todo${item.id}`)
 
   const todoDetailsComponent = () => {
     return html`
-    <p><strong>Description:</strong> <span 
-    @click=${() => editDescription(item, todos)} contenteditable>
-        ${item.description}
-   </span></p>
+    <p><strong>Description:</strong> <input type="text" class="input is-rounded editable-text" 
+    @click=${() => editDescription(item, todos)} value="${item.description}"/></p>
 
     <br>
     <p><strong>Due Date:</strong> <span>${item.dueDate}</span></p>
@@ -91,7 +120,6 @@ const handleChange = (event, item, list) => {
 /////////////////////////////////
 
 const todoListComponent = (todos) => {
-  console.log(todos.items)
   return html`
     <ul id="taskList" class="menu-list"> 
     ${repeat(todos.items, (item) => item.title, (item, index) => html`
@@ -100,11 +128,13 @@ const todoListComponent = (todos) => {
 expand_more
 </span>
       <input type="checkbox" name="done" id="done">  
-      <label for="done" class="subtitle">${item.title}: ${item.description}</label>
+      <input type="text" class="input subtitle editable-title" 
+    @click=${() => editTitle(item, todos)} value="${item.title}"/>
       </li>
       <div id="todo${item.id}" 
-                            class="is-hidden ${item.priority == 3 ? 'has-background-danger-light' : ''} ${item.priority == 2 ? 'has-background-warning-light' : ''}
+                            class="pl-6 is-hidden ${item.priority == 3 ? 'has-background-danger-light' : ''} ${item.priority == 2 ? 'has-background-warning-light' : ''}
                               p-2" style=""></div>
+      <br>
     `)}
     </ul>
         `;
