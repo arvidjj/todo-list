@@ -2,6 +2,7 @@ import { html, render } from 'lit-html';
 import { renderTodoList } from './TodoTasks.js'
 
 import * as ListsController from '../objects/ListsController.js'
+import * as LCD from '../objects/LocalStorageData.js'
 
 const handleAddItem = (item) => {
   renderTodoList(ListsController.getList(item.name));
@@ -41,6 +42,7 @@ const renderProjectListHere = document.querySelector('#projectlist')
 const renderProjectAddHere = document.querySelector('#addproject')
 
 export function renderProjectList() {
+  LCD.saveToStorage('lists', ListsController.getLists())
   render(ProjectList(ListsController.getLists()), renderProjectListHere)
   render(AddProject() , renderProjectAddHere);  
 }

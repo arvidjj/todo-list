@@ -13,8 +13,12 @@ class TodoList {
     return this.latestId
   }
 
-  addItem(title, description, dueDate, priority) {
-    const newItem = new Todo(title, description, dueDate, priority);
+  setItems(todos) {
+    this.items = todos;
+  }
+
+  addItem(title, description, dueDate, priority, inList) {
+    const newItem = new Todo(title, description, dueDate, priority, inList);
     this.items.push(newItem);
   }
 

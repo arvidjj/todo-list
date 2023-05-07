@@ -1,6 +1,7 @@
 import { html, render } from "lit-html";
 import { repeat } from 'lit-html/directives/repeat.js';
 import * as ListsController from '../objects/ListsController.js'
+import * as LCD from '../objects/LocalStorageData.js'
 import TodoList from '../objects/TodoList.js';
 import Todo from '../objects/Todo.js';
 import { format, parseISO } from 'date-fns';
@@ -62,6 +63,7 @@ function editDescription(item, list) {
       console.log(ListsController.getList(list.name))
     }
   });
+  renderTodoList(list)
 }
 
 const options = [
@@ -75,6 +77,7 @@ const changeDate = (event, todo, list) => {
   const formattedDate = format(newDueDate, 'yyyy-MM-dd');
   const newItem = { ...todo, dueDate: formattedDate };
   ListsController.modifyTodoItem(list.name, todo, newItem);
+  renderTodoList(list)
 };
 
 const handleExpandTask = (item, todos) => {
@@ -122,6 +125,7 @@ const handleChange = (event, item, list) => {
   const listDiv = document.querySelector(`#todo${item.id}`);
   listDiv.className = `${selected == 3 ? 'pl-6 has-background-danger-light p-2' : 'pl-6 p-2'} ${selected == 2 ? 'pl-6 has-background-warning-light p-2' : 'pl-6 p-2'}`;
   renderSelect(newItem, list);
+  renderTodoList(list)
 };
 /////////////////////////////////
 
@@ -177,7 +181,7 @@ arrow_forward_ios
 const handleClick = (item) => {
   //ListsController.getList(item.name);
   const newTask = document.querySelector("#taskinquestion");
-  ListsController.getList(item.name).addItem(newTask.value, "", "", 1);
+  ListsController.getList(item.name).addItem(newTask.value, "", "", 1, item.name);
   renderTodoList(item)
   newTask.value = '';
 };
@@ -207,6 +211,8 @@ function renderTodoList(list) {
   render(todoListTitleComponent(list), renderTasksTitleHere);
   render(todoListOptionsComponent(list), renderTasksOptionsHere);
   render(todoListComponent(list), renderTaskListHere);
+
+  LCD.saveToStorage('lists', ListsController.getLists())
 }
 
 

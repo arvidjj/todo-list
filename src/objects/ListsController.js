@@ -1,11 +1,29 @@
 import TodoList from './TodoList.js'
-import { Todo } from './Todo.js'
+import Todo from './Todo.js'
 
 
-export const todoLists = [];
+export let todoLists = [];
 
 export function getLists() {
     return todoLists;
+}
+
+export function setLists(lists) {
+    const newTodoLists = [];
+    
+    lists.forEach(item => {
+        console.log(item)
+        const todoList = new TodoList(item.name);
+        const todosInList = [];
+        item.items.forEach(todo => {
+            console.log(todo)
+            const todoItem = new Todo(todo.title, todo.description, todo.dueDate, todo.priority, todo.inList);
+            todosInList.push(todoItem)
+        })
+        todoList.setItems(todosInList);
+        newTodoLists.push(todoList)
+    });
+    todoLists = newTodoLists;
 }
 
 export function getList(listname) {
