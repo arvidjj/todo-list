@@ -3,6 +3,7 @@ import { repeat } from 'lit-html/directives/repeat.js';
 import * as ListsController from '../objects/ListsController.js'
 import TodoList from '../objects/TodoList.js';
 import Todo from '../objects/Todo.js';
+import { format, parseISO } from 'date-fns';
 
 /////////////////////////
 function editTitle(item, list) {
@@ -69,6 +70,13 @@ const options = [
   { value: '1', label: 'Low' }
 ];
 
+const changeDate = (event, todo, list) => {
+  const newDueDate = parseISO(event.target.value);
+  const formattedDate = format(newDueDate, 'yyyy-MM-dd');
+  const newItem = { ...todo, dueDate: formattedDate };
+  ListsController.modifyTodoItem(list.name, todo, newItem);
+};
+
 const handleExpandTask = (item, todos) => {
   const todoDetailsDiv = document.querySelector(`#todo${item.id}`)
 
@@ -78,8 +86,8 @@ const handleExpandTask = (item, todos) => {
     @click=${() => editDescription(item, todos)} value="${item.description}"/></p>
 
     <br>
-    <p><strong>Due Date:</strong> <span>${item.dueDate}</span></p>
-    <p><strong>Priority:</strong><span id="priority${item.id}"></span></p>
+    <label for="duedate${item.id}"><strong>Due Date:</strong> <input id="duedate${item.id}" name="duedate${item.id}" type="date" value="${item.dueDate}" @change=${(event) => changeDate(event, item, todos)}></label>
+    <label for="prio${item.id}"><strong>Priority:</strong><span id="priority${item.id}"></span></label>
     `
   }
   render(todoDetailsComponent(), todoDetailsDiv)
@@ -91,7 +99,7 @@ const renderSelect = (item, list) => {
 
   const template = html`
     <div class="select is-rounded is-small">
-      <select @change=${(event) => handleChange(event, item, list)}>
+      <select id="prio${item.id}" @change=${(event) => handleChange(event, item, list)}>
         ${options.map((option) => html`
           <option value=${option.value} ?selected=${option.value === item.priority}>${option.label}</option>
         `)}
@@ -104,14 +112,15 @@ const renderSelect = (item, list) => {
 const handleChange = (event, item, list) => {
   const selected = event.target.value;
   //update the todo priority
-  console.log(list)
+  
   const newItem = { ...item, priority: selected };
   ListsController.modifyTodoItem(list.name, item, newItem);
+  console.log(event.target.value)
   ////
   const listItem = document.querySelector(`#listitem${item.id}`);
   listItem.className = `${selected == 3 ? 'is-flex-grow-1 has-background-danger-light' : 'is-flex-grow-1'} ${selected == 2 ? 'is-flex-grow-1 has-background-warning-light' : 'is-flex-grow-1'}`;
   const listDiv = document.querySelector(`#todo${item.id}`);
-  listDiv.className = `${selected == 3 ? 'has-background-danger-light p-2' : 'p-2'} ${selected == 2 ? 'has-background-warning-light p-2' : 'p-2'}`;
+  listDiv.className = `${selected == 3 ? 'pl-6 has-background-danger-light p-2' : 'pl-6 p-2'} ${selected == 2 ? 'pl-6 has-background-warning-light p-2' : 'pl-6 p-2'}`;
   renderSelect(newItem, list);
 };
 /////////////////////////////////
@@ -120,6 +129,12 @@ function removeTodo(item, list) {
   ListsController.removeTodoItem(list.name, item)
   renderTodoList(list)
 }
+
+const handleCheckboxChange = (event, todo, list) => {
+  const isChecked = event.target.checked;
+  const newItem = { ...todo, isDone: isChecked };
+  ListsController.modifyTodoItem(list.name, todo, newItem);
+};
 
 const todoListComponent = (todos) => {
   return html`
@@ -130,7 +145,7 @@ const todoListComponent = (todos) => {
         <span class="material-symbols-outlined" style="cursor:pointer;" @click=${() => handleExpandTask(item, todos)}>
         expand_more
         </span>
-        <input type="checkbox" name="done" id="done">
+        <input type="checkbox" name="done${item.id}" id="done${item.id}" ?checked=${item.isDone} @change=${(event) => handleCheckboxChange(event, item, todos)}>
         <input type="text" class="input subtitle editable-title" 
             @click=${() => editTitle(item, todos)} value="${item.title}"/>
         </li>
@@ -142,7 +157,7 @@ const todoListComponent = (todos) => {
       </div>
       <div id="todo${item.id}" 
                             class="pl-6 is-hidden ${item.priority == 3 ? 'has-background-danger-light' : ''} ${item.priority == 2 ? 'has-background-warning-light' : ''}
-                              p-2" style=""></div>
+                              p-2" style="gap :5px;"></div>
       <br>
     `)}
     </ul>
@@ -162,7 +177,7 @@ arrow_forward_ios
 const handleClick = (item) => {
   //ListsController.getList(item.name);
   const newTask = document.querySelector("#taskinquestion");
-  ListsController.getList(item.name).addItem(newTask.value, "", "", 0);
+  ListsController.getList(item.name).addItem(newTask.value, "", "", 1);
   renderTodoList(item)
   newTask.value = '';
 };

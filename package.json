@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "bulma": "^0.9.4",
+    "date-fns": "^2.30.0",
     "lit-html": "^2.7.3",
     "style-loader": "^3.3.2"
   }
