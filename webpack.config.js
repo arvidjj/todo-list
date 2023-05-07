@@ -25,6 +25,7 @@ module.exports = {
       template: 'src/index.html', // path to your index.html template file
       filename: 'index.html', // output file name
       // add any other options you need
+      favicon: 'src/resources/icon.png',
       clean: true,
     },
     )

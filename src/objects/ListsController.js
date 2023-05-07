@@ -8,15 +8,14 @@ export function getLists() {
     return todoLists;
 }
 
+//USE THIS WITH LOCALSTORAGE
 export function setLists(lists) {
     const newTodoLists = [];
     
     lists.forEach(item => {
-        console.log(item)
         const todoList = new TodoList(item.name);
         const todosInList = [];
         item.items.forEach(todo => {
-            console.log(todo)
             const todoItem = new Todo(todo.title, todo.description, todo.dueDate, todo.priority, todo.inList);
             todosInList.push(todoItem)
         })
