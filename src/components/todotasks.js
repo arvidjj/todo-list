@@ -104,7 +104,7 @@ const renderSelect = (item, list) => {
     <div class="select is-rounded is-small">
       <select id="prio${item.id}" @change=${(event) => handleChange(event, item, list)}>
         ${options.map((option) => html`
-          <option value=${option.value} ?selected=${option.value === item.priority}>${option.label}</option>
+          <option value=${option.value} ?selected=${option.value == item.priority}>${option.label}</option>
         `)}
       </select>
     </div>
