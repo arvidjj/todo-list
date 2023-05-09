@@ -9,13 +9,13 @@ const handleRenderList = (item) => {
 };
 
 const removeList = (item) => {
-  ListsController.removeTodoList(item.id)
-
-  const currentLists = ListsController.getLists();
-  if (getRenderedList() == item.name) {
-    renderEmptyTodoList();
+  if (getRenderedList()) {
+    if (getRenderedList() == item.name) {
+      renderEmptyTodoList();
+    }
   }
   
+  ListsController.removeTodoList(item.id)
   renderProjectList();
 };
 
@@ -63,6 +63,8 @@ export function renderProjectList() {
   LCD.saveToStorage('lists', ListsController.getLists())
   if (ListsController.hasLists()) {
     render(ProjectList(ListsController.getLists()), renderProjectListHere)
+  } else {
+    render(html``, renderProjectListHere)
   }
   render(AddProject() , renderProjectAddHere);  
 }

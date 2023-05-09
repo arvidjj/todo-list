@@ -254,9 +254,14 @@ function renderEmptyTodoList() {
   LCD.saveToStorage('lists', ListsController.getLists())
 }
 
+//returns false if there is no rendered list
 function getRenderedList() {
   const renderedList = document.querySelector('#currentTitle');
-  return renderedList.textContent;
+  console.log(renderedList)
+  if (renderedList) {
+    return renderedList.textContent;
+  }
+  return false;
 }
 
 
