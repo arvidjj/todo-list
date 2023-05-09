@@ -9,7 +9,7 @@ import { format, parseISO } from 'date-fns';
 /////////////////////////
 function editTitle(item, list) {
   const selectedTodo = ListsController.getTodo(list.id, item.id);
-
+  
   const input = event.target;
   input.focus(); // Set focus on the input element
 
@@ -20,24 +20,25 @@ function editTitle(item, list) {
     // Update the item object with the new value
     const newItem = { ...selectedTodo, title: currentValue };
     ListsController.modifyTodoItem(list.id, selectedTodo, newItem);
+    
     //renderTodoList(ListsController.getList(list.name))
     LCD.saveToStorage('lists', ListsController.getLists())
-  });
+  }); 
 
   // Add a keydown event listener to the input element
   input.addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
       event.preventDefault(); // Prevent default behavior of Enter key
 
-      const currentValue = input.value.trim();
+      //const currentValue = input.value.trim();
 
       // Update the item object with the new value
-      const newItem = { ...selectedTodo, title: currentValue };
-      ListsController.modifyTodoItem(list.id, selectedTodo, newItem);
+      //const newItem = { ...selectedTodo, title: currentValue };
+      //ListsController.modifyTodoItem(list.id, selectedTodo, newItem);
       input.blur(); // Trigger blur event to save changes
       //renderTodoList(ListsController.getList(list.name))
-      LCD.saveToStorage('lists', ListsController.getLists())
-      console.log(ListsController.getList(list.id))
+      //LCD.saveToStorage('lists', ListsController.getLists())
+      //console.log(ListsController.getList(list.id))
     }
   });
 }
