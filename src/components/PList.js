@@ -61,6 +61,8 @@ const renderProjectAddHere = document.querySelector('#addproject')
 
 export function renderProjectList() {
   LCD.saveToStorage('lists', ListsController.getLists())
-  render(ProjectList(ListsController.getLists()), renderProjectListHere)
+  if (ListsController.hasLists()) {
+    render(ProjectList(ListsController.getLists()), renderProjectListHere)
+  }
   render(AddProject() , renderProjectAddHere);  
 }
