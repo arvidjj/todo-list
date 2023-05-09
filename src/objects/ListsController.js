@@ -18,18 +18,20 @@ export function hasLists() {
 //USE THIS WITH LOCALSTORAGE
 export function setLists(lists) {
     const newTodoLists = [];
-    
-    lists.forEach(item => {
-        const todoList = new TodoList(item.name);
-        const todosInList = [];
-        item.items.forEach(todo => {
-            const todoItem = new Todo(todo.title, todo.description, todo.dueDate, todo.priority, todo.isDone, todo.inList);
-            todosInList.push(todoItem)
-        })
-        todoList.setItems(todosInList);
-        newTodoLists.push(todoList)
-    });
-    todoLists = newTodoLists;
+
+    if (lists !== undefined) {
+        lists.forEach(item => {
+            const todoList = new TodoList(item.name);
+            const todosInList = [];
+            item.items.forEach(todo => {
+                const todoItem = new Todo(todo.title, todo.description, todo.dueDate, todo.priority, todo.isDone, todo.inList);
+                todosInList.push(todoItem)
+            })
+            todoList.setItems(todosInList);
+            newTodoLists.push(todoList)
+        });
+        todoLists = newTodoLists;
+    }
 }
 
 export function getList(listId) {
