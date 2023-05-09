@@ -17,13 +17,15 @@ render(header(), headerDiv);
 
 
 //TESTING//////
-const project1 = new TodoList('Project 1')
+
+/*const project1 = new TodoList('Project 1')
 const project2 = new TodoList('Project 2')
 
 project1.addItem('First task', 'learn how to code', '2023-05-25', '3', false, 'Project 1')
 
 ListsController.addList(project1);
-ListsController.addList(project2);
+ListsController.addList(project2);*/
+
 //add a new todo
 //////////////
 //// LOAD LISTS FROM LOCALSTORAGE

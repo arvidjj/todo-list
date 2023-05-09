@@ -8,6 +8,8 @@ import { format, parseISO } from 'date-fns';
 
 /////////////////////////
 function editTitle(item, list) {
+  const selectedTodo = ListsController.getTodo(list.id, item.id);
+
   const input = event.target;
   input.focus(); // Set focus on the input element
 
@@ -16,8 +18,10 @@ function editTitle(item, list) {
     const currentValue = input.value.trim();
 
     // Update the item object with the new value
-    const newItem = { ...item, title: currentValue };
-    ListsController.modifyTodoItem(list.name, item, newItem);
+    const newItem = { ...selectedTodo, title: currentValue };
+    ListsController.modifyTodoItem(list.id, selectedTodo, newItem);
+    //renderTodoList(ListsController.getList(list.name))
+    LCD.saveToStorage('lists', ListsController.getLists())
   });
 
   // Add a keydown event listener to the input element
@@ -28,15 +32,19 @@ function editTitle(item, list) {
       const currentValue = input.value.trim();
 
       // Update the item object with the new value
-      const newItem = { ...item, title: currentValue };
-      ListsController.modifyTodoItem(list.name, item, newItem);
+      const newItem = { ...selectedTodo, title: currentValue };
+      ListsController.modifyTodoItem(list.id, selectedTodo, newItem);
       input.blur(); // Trigger blur event to save changes
-      console.log(ListsController.getList(list.name))
+      //renderTodoList(ListsController.getList(list.name))
+      LCD.saveToStorage('lists', ListsController.getLists())
+      console.log(ListsController.getList(list.id))
     }
   });
 }
 
 function editDescription(item, list) {
+  const selectedTodo = ListsController.getTodo(list.id, item.id); 
+
   const input = event.target;
   input.focus(); // Set focus on the input element
 
@@ -45,8 +53,9 @@ function editDescription(item, list) {
     const currentValue = input.value.trim();
 
     // Update the item object with the new value
-    const newItem = { ...item, description: currentValue };
-    ListsController.modifyTodoItem(list.name, item, newItem);
+    const newItem = { ...selectedTodo, description: currentValue };
+    ListsController.modifyTodoItem(list.id, selectedTodo, newItem);
+    renderTodoList(ListsController.getList(list.id))
   });
 
   // Add a keydown event listener to the input element
@@ -57,13 +66,12 @@ function editDescription(item, list) {
       const currentValue = input.value.trim();
 
       // Update the item object with the new value
-      const newItem = { ...item, description: currentValue };
-      ListsController.modifyTodoItem(list.name, item, newItem);
+      const newItem = { ...selectedTodo, description: currentValue };
+      ListsController.modifyTodoItem(list.id, selectedTodo, newItem);
       input.blur(); // Trigger blur event to save changes
-      console.log(ListsController.getList(list.name))
+      renderTodoList(ListsController.getList(list.id))
     }
   });
-  renderTodoList(list)
 }
 
 const options = [
@@ -73,74 +81,82 @@ const options = [
 ];
 
 const changeDate = (event, todo, list) => {
+  const selectedTodo = ListsController.getTodo(list.id, todo.id); 
+
   const newDueDate = parseISO(event.target.value);
   const formattedDate = format(newDueDate, 'yyyy-MM-dd');
-  const newItem = { ...todo, dueDate: formattedDate };
-  ListsController.modifyTodoItem(list.name, todo, newItem);
-  renderTodoList(list)
+  const newItem = { ...selectedTodo, dueDate: formattedDate };
+  ListsController.modifyTodoItem(list.id, selectedTodo, newItem);
+  LCD.saveToStorage('lists', ListsController.getLists())
 };
 
 const handleExpandTask = (item, todos) => {
-  const todoDetailsDiv = document.querySelector(`#todo${item.id}`)
+  const selectedTodo = ListsController.getTodo(todos.id, item.id); 
+  const todoDetailsDiv = document.querySelector(`#todo${selectedTodo.id}`)
 
   const todoDetailsComponent = () => {
     return html`
     <p><strong>Description:</strong> <input type="text" class="input is-rounded editable-text" 
-    @click=${() => editDescription(item, todos)} value="${item.description}"/></p>
+    @click=${() => editDescription(selectedTodo, todos)} value="${selectedTodo.description}"/></p>
 
     <br>
-    <label for="duedate${item.id}"><strong>Due Date:</strong> <input id="duedate${item.id}" name="duedate${item.id}" type="date" value="${item.dueDate}" @change=${(event) => changeDate(event, item, todos)}></label>
-    <label for="prio${item.id}"><strong>Priority:</strong><span id="priority${item.id}"></span></label>
+    <label for="duedate${selectedTodo.id}"><strong>Due Date:</strong> <input id="duedate${selectedTodo.id}" name="duedate${selectedTodo.id}" type="date" value="${selectedTodo.dueDate}" @change=${(event) => changeDate(event, selectedTodo, todos)}></label>
+    <label for="prio${selectedTodo.id}"><strong>Priority:</strong><span id="priority${selectedTodo.id}"></span></label>
     `
   }
   render(todoDetailsComponent(), todoDetailsDiv)
-  renderSelect(item, todos);
+  renderSelect(selectedTodo, todos);
   todoDetailsDiv.classList.toggle('is-hidden')
 };
 
 const renderSelect = (item, list) => {
-
+  const selectedTodo = ListsController.getTodo(list.id, item.id); 
   const template = html`
     <div class="select is-rounded is-small">
-      <select id="prio${item.id}" @change=${(event) => handleChange(event, item, list)}>
+      <select id="prio${selectedTodo.id}" @change=${(event) => handleChange(event, selectedTodo, list)}>
         ${options.map((option) => html`
-          <option value=${option.value} ?selected=${option.value == item.priority}>${option.label}</option>
+          <option value=${option.value} ?selected=${option.value == selectedTodo.priority}>${option.label}</option>
         `)}
       </select>
     </div>
   `;
-  render(template, document.querySelector("#priority" + item.id));
+  render(template, document.querySelector("#priority" + selectedTodo.id));
 };
 
 const handleChange = (event, item, list) => {
+  const selectedTodo = ListsController.getTodo(list.id, item.id); 
+  const selectedList = ListsController.getList(list.id)
   const selected = event.target.value;
   //update the todo priority
   
-  const newItem = { ...item, priority: selected };
-  ListsController.modifyTodoItem(list.name, item, newItem);
-  console.log(event.target.value)
+  const newItem = { ...selectedTodo, priority: selected };
+  ListsController.modifyTodoItem(selectedList.id, selectedTodo, newItem);
   ////
-  const listItem = document.querySelector(`#listitem${item.id}`);
+  const listItem = document.querySelector(`#listitem${selectedTodo.id}`);
   listItem.className = `${selected == 3 ? 'is-flex-grow-1 has-background-danger-light' : 'is-flex-grow-1'} ${selected == 2 ? 'is-flex-grow-1 has-background-warning-light' : 'is-flex-grow-1'}`;
-  const listDiv = document.querySelector(`#todo${item.id}`);
+  const listDiv = document.querySelector(`#todo${selectedTodo.id}`);
   listDiv.className = `${selected == 3 ? 'pl-6 has-background-danger-light p-2' : 'pl-6 p-2'} ${selected == 2 ? 'pl-6 has-background-warning-light p-2' : 'pl-6 p-2'}`;
-  renderSelect(newItem, list);
-  renderTodoList(list)
- // handleExpandTask(item, list);
+  //handleExpandTask(item, list);
+  renderSelect(newItem, selectedList);
+  //renderTodoList(ListsController.getList(list.name))
+  LCD.saveToStorage('lists', ListsController.getLists())
 };
 /////////////////////////////////
 
 function removeTodo(item, list) {
-  ListsController.removeTodoItem(list.name, item)
-  renderTodoList(list)
+  const selectedTodo = ListsController.getTodo(list.id, item.id); 
+
+  ListsController.removeTodoItem(list.id, selectedTodo)
+  renderTodoList(ListsController.getList(list.id))
 }
 
 const handleCheckboxChange = (event, todo, list) => {
+  const selectedTodo = ListsController.getTodo(list.id, todo.id);
+
   const isChecked = event.target.checked;
-  const newItem = { ...todo, isDone: isChecked };
-  ListsController.modifyTodoItem(list.name, todo, newItem);
-  console.log(ListsController.getList(list.name))
-  renderTodoList(list);
+  const newItem = { ...selectedTodo, isDone: isChecked };
+  ListsController.modifyTodoItem(list.id, selectedTodo, newItem);
+  renderTodoList(ListsController.getList(list.id))
 };
 
 const todoListComponent = (todos) => {
@@ -154,7 +170,7 @@ const todoListComponent = (todos) => {
         </span>
         <input type="checkbox" name="done${item.id}" id="done${item.id}" ?checked=${item.isDone} @change=${(event) => handleCheckboxChange(event, item, todos)}>
         <input type="text" class="input subtitle editable-title" 
-            @click=${() => editTitle(item, todos)} value="${item.title}"/>
+          @focus=${() => editTitle(item, todos)} value="${item.title}"/>
         </li>
         <button class="button is-danger is-outlined" @click=${() => removeTodo(item, todos)}>
           <span class="material-symbols-outlined">
@@ -184,7 +200,7 @@ arrow_forward_ios
 const handleClick = (item) => {
   //ListsController.getList(item.name);
   const newTask = document.querySelector("#taskinquestion");
-  ListsController.getList(item.name).addItem(newTask.value, "", "", 1, item.name);
+  ListsController.getList(item.id).addItem(newTask.value, "", "", 1, item.name);
   renderTodoList(item)
   newTask.value = '';
 };

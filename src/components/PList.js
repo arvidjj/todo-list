@@ -5,11 +5,11 @@ import * as ListsController from '../objects/ListsController.js'
 import * as LCD from '../objects/LocalStorageData.js'
 
 const handleRenderList = (item) => {
-  renderTodoList(ListsController.getList(item.name));
+  renderTodoList(ListsController.getList(item.id));
 };
 
 const removeList = (item) => {
-  ListsController.removeTodoList(item.name)
+  ListsController.removeTodoList(item.id)
 
   const currentLists = ListsController.getLists();
   if (getRenderedList() == item.name) {

@@ -4,7 +4,7 @@ class TodoList {
   constructor(name) {
     this.name = name;
     this.items = [];
-    this._id = TodoList.incrementId()
+    this.id = TodoList.incrementId()
   }
 
   static incrementId() {
@@ -29,6 +29,10 @@ class TodoList {
   modifyTodo(todo, newTodo) {
     const index = this.items.findIndex(item => item === todo);
     this.items.splice(index, 1, newTodo);
+  }
+
+  getTodoById(todoId) {
+    return this.items.find(item => item.id === todoId)
   }
 
   removeIndex(index) {
