@@ -126,6 +126,7 @@ const handleChange = (event, item, list) => {
   listDiv.className = `${selected == 3 ? 'pl-6 has-background-danger-light p-2' : 'pl-6 p-2'} ${selected == 2 ? 'pl-6 has-background-warning-light p-2' : 'pl-6 p-2'}`;
   renderSelect(newItem, list);
   renderTodoList(list)
+ // handleExpandTask(item, list);
 };
 /////////////////////////////////
 
@@ -138,6 +139,8 @@ const handleCheckboxChange = (event, todo, list) => {
   const isChecked = event.target.checked;
   const newItem = { ...todo, isDone: isChecked };
   ListsController.modifyTodoItem(list.name, todo, newItem);
+  console.log(ListsController.getList(list.name))
+  renderTodoList(list);
 };
 
 const todoListComponent = (todos) => {
