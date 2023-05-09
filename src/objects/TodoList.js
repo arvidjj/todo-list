@@ -17,8 +17,8 @@ class TodoList {
     this.items = todos;
   }
 
-  addItem(title, description, dueDate, priority, inList) {
-    const newItem = new Todo(title, description, dueDate, priority, inList);
+  addItem(title, description, dueDate, priority, isDone, inList) {
+    const newItem = new Todo(title, description, dueDate, priority, isDone, inList);
     this.items.push(newItem);
   }
 

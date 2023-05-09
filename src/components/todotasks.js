@@ -200,7 +200,7 @@ arrow_forward_ios
 const handleClick = (item) => {
   //ListsController.getList(item.name);
   const newTask = document.querySelector("#taskinquestion");
-  ListsController.getList(item.id).addItem(newTask.value, "", "", 1, item.name);
+  ListsController.getList(item.id).addItem(newTask.value, "", "", 1, false, item.name);
   renderTodoList(item)
   newTask.value = '';
 };
