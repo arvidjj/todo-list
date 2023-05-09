@@ -3,7 +3,7 @@ import './style/main.css';
 import header from './components/Header.js';
 import TodoList from './objects/TodoList.js';
 import Todo from './objects/Todo.js';
-import { renderTodoList }from './components/TodoTasks.js'
+import { renderTodoList, renderEmptyTodoList, renderEarliestList }from './components/todoTasks.js'
 import { renderProjectList } from './components/PList.js';
 
 import * as ListsController from './objects/ListsController.js'
@@ -26,10 +26,10 @@ ListsController.addList(project1);
 ListsController.addList(project2);
 //add a new todo
 //////////////
+//// LOAD LISTS FROM LOCALSTORAGE
 ListsController.setLists(LCD.loadLists())
 //LCD.loadTodos();
 
 ///////////////////// EJEMPLO
 renderProjectList();
-
-renderTodoList(ListsController.getList('Project 1'));
+renderEarliestList();

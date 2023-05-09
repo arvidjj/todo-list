@@ -11,8 +11,8 @@
   padding-left: 0.3rem;
 }
 
-#projectlist ul li {
-  border-radius: 12px;
+#projectlist ul li p {
+  border-radius: 12px 0px 0px 12px;
   background-color: hsl(171, 100%, 41%);
   color: white;
   font-weight: bold;
@@ -23,8 +23,9 @@
   padding: 5px;
   padding-left: 20px;
   font-size: 1.2em;
+  flex-grow: 1;
 }
-#projectlist ul li:hover {
+#projectlist ul li p:hover {
   background-color: hsl(120, 57%, 58%);
 }
 

@@ -173,7 +173,7 @@ const todoListTitleComponent = (todoList) => {
   return html`
     <p class="title"><span class="material-symbols-outlined">
 arrow_forward_ios
-</span>${todoList.name}</p>
+</span><span id="currentTitle">${todoList.name}</span></p>
         `;
 }
   ;
@@ -215,5 +215,30 @@ function renderTodoList(list) {
   LCD.saveToStorage('lists', ListsController.getLists())
 }
 
+function renderEarliestList() {
+  if (ListsController.hasLists()) { //if there are lists
+    const list = ListsController.getLists()[0];
+    render(todoListTitleComponent(list), renderTasksTitleHere);
+    render(todoListOptionsComponent(list), renderTasksOptionsHere);
+    render(todoListComponent(list), renderTaskListHere);
+  } else { //if there are no lists
+    renderEmptyTodoList()
+  }
+  LCD.saveToStorage('lists', ListsController.getLists())
+}
 
-export { renderTodoList };
+function renderEmptyTodoList() {
+  render(html`<h1 class="title">Select or create a project!</h1>`, renderTasksTitleHere);
+  render(html``, renderTasksOptionsHere);
+  render(html`-`, renderTaskListHere);
+
+  LCD.saveToStorage('lists', ListsController.getLists())
+}
+
+function getRenderedList() {
+  const renderedList = document.querySelector('#currentTitle');
+  return renderedList.textContent;
+}
+
+
+export { renderTodoList, getRenderedList, renderEmptyTodoList, renderEarliestList};

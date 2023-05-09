@@ -6,7 +6,7 @@
     ul {
         li {
             display: flex;
-            gap:10px;
+            gap: 10px;
             align-items: center;
             padding-top: 0.3rem;
             padding-bottom: 0.3rem;
@@ -18,40 +18,46 @@
 #projectlist {
     ul {
         li {
-            border-radius: 12px;
-            background-color: hsl(171, 100%, 41%);
-            color: white;
-            font-weight: bold;
+            p {
+                border-radius: 12px 0px 0px 12px;
+                background-color: hsl(171, 100%, 41%);
+                color: white;
+                font-weight: bold;
 
-            display:flex;
-            margin-left: 0;
-            margin-right: 0;
-            margin-bottom: 15px;
-            padding: 5px;
-            padding-left: 20px;
-            font-size: 1.2em;
-            &:hover {
-                background-color: hsl(120, 57%, 58%);
+                display: flex;
+                margin-left: 0;
+                margin-right: 0;
+                margin-bottom: 15px;
+                padding: 5px;
+                padding-left: 20px;
+                font-size: 1.2em;
+                flex-grow: 1;
+
+                &:hover {
+                    background-color: hsl(120, 57%, 58%);
+                }
             }
         }
     }
 }
 
 .editable-text {
-    padding:0.3rem;
+    padding: 0.3rem;
     background-color: inherit;
-    &:hover{
+
+    &:hover {
         background-color: lightblue;
     }
 }
 
 .editable-title {
-    padding:0;
+    padding: 0;
     background-color: inherit;
     border: none;
     box-shadow: none;
     height: 2rem;
-    &:hover{
+
+    &:hover {
         background-color: lightblue;
     }
 }

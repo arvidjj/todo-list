@@ -1,17 +1,35 @@
 import { html, render } from 'lit-html';
-import { renderTodoList } from './TodoTasks.js'
+import { renderTodoList, getRenderedList, renderEmptyTodoList} from './todoTasks.js'
 
 import * as ListsController from '../objects/ListsController.js'
 import * as LCD from '../objects/LocalStorageData.js'
 
-const handleAddItem = (item) => {
+const handleRenderList = (item) => {
   renderTodoList(ListsController.getList(item.name));
+};
+
+const removeList = (item) => {
+  ListsController.removeTodoList(item.name)
+
+  const currentLists = ListsController.getLists();
+  if (getRenderedList() == item.name) {
+    renderEmptyTodoList();
+  }
+  
+  renderProjectList();
 };
 
 export const ProjectList = (items) => html`
   <ul class="">
     ${items.map((item) => html`
-      <li style="cursor:pointer;" @click=${() => handleAddItem(item)}>${item.name}</li>
+      <li class="is-flex is-flex-wrap-nowrap is-justify-content-space-between">
+        <p class="" style="cursor:pointer;" @click=${() => handleRenderList(item)}>${item.name}</p>
+        <button class="button is-danger is-outlined p-1" @click=${() => removeList(item)}>
+            <span class="material-symbols-outlined">
+              close
+            </span>
+          </button>
+      </li>
     `)}
   </ul>
 `;

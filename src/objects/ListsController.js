@@ -8,6 +8,13 @@ export function getLists() {
     return todoLists;
 }
 
+export function hasLists() {
+    if (todoLists.length === 0) {
+        return false
+    }
+    return true;
+}
+
 //USE THIS WITH LOCALSTORAGE
 export function setLists(lists) {
     const newTodoLists = [];
@@ -45,6 +52,11 @@ export function removeTodoItem(listName, todoItem) {
     if (list) {
         list.removeItem(todoItem);
     }
+}
+
+export function removeTodoList(listName) {
+    const index = this.todoLists.findIndex(list => list.name === listName);
+    this.todoLists.splice(index, 1);
 }
 
 export function modifyTodoItem(listName, todoItem, newTodoitem) {
