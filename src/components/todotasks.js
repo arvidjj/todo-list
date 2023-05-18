@@ -43,7 +43,7 @@ function editTitle(item, list) {
 }
 
 function editDescription(item, list) {
-  const selectedTodo = ListsController.getTodo(list.id, item.id); 
+  const selectedTodo = ListsController.getTodo(list.id, item.id);
 
   const input = event.target;
   input.focus(); // Set focus on the input element
@@ -81,7 +81,7 @@ const options = [
 ];
 
 const changeDate = (event, todo, list) => {
-  const selectedTodo = ListsController.getTodo(list.id, todo.id); 
+  const selectedTodo = ListsController.getTodo(list.id, todo.id);
 
   const newDueDate = parseISO(event.target.value);
   const formattedDate = format(newDueDate, 'yyyy-MM-dd');
@@ -91,7 +91,7 @@ const changeDate = (event, todo, list) => {
 };
 
 const handleExpandTask = (item, todos) => {
-  const selectedTodo = ListsController.getTodo(todos.id, item.id); 
+  const selectedTodo = ListsController.getTodo(todos.id, item.id);
   const todoDetailsDiv = document.querySelector(`#todo${selectedTodo.id}`)
 
   const todoDetailsComponent = () => {
@@ -106,11 +106,11 @@ const handleExpandTask = (item, todos) => {
   }
   render(todoDetailsComponent(), todoDetailsDiv)
   renderSelect(selectedTodo, todos);
-  todoDetailsDiv.classList.toggle('is-hidden')
+  todoDetailsDiv.classList.toggle('deployed')
 };
 
 const renderSelect = (item, list) => {
-  const selectedTodo = ListsController.getTodo(list.id, item.id); 
+  const selectedTodo = ListsController.getTodo(list.id, item.id);
   const template = html`
     <div class="select is-rounded is-small">
       <select id="prio${selectedTodo.id}" @change=${(event) => handleChange(event, selectedTodo, list)}>
@@ -124,18 +124,18 @@ const renderSelect = (item, list) => {
 };
 
 const handleChange = (event, item, list) => {
-  const selectedTodo = ListsController.getTodo(list.id, item.id); 
+  const selectedTodo = ListsController.getTodo(list.id, item.id);
   const selectedList = ListsController.getList(list.id)
   const selected = event.target.value;
   //update the todo priority
-  
+
   const newItem = { ...selectedTodo, priority: selected };
   ListsController.modifyTodoItem(selectedList.id, selectedTodo, newItem);
   ////
   const listItem = document.querySelector(`#listitem${selectedTodo.id}`);
-  listItem.className = `${selected == 3 ? 'is-flex-grow-1 has-background-danger-light' : 'is-flex-grow-1'} ${selected == 2 ? 'is-flex-grow-1 has-background-warning-light' : 'is-flex-grow-1'}`;
+  listItem.className = `${selected == 3 ? 'is-flex-grow-1 has-background-danger-light' : 'has-background-light asd is-flex-grow-1'} ${selected == 2 ? 'is-flex-grow-1 has-background-warning-light' : 'has-background-light asd is-flex-grow-1'}`;
   const listDiv = document.querySelector(`#todo${selectedTodo.id}`);
-  listDiv.className = `${selected == 3 ? 'pl-6 has-background-danger-light p-2' : 'pl-6 p-2'} ${selected == 2 ? 'pl-6 has-background-warning-light p-2' : 'pl-6 p-2'}`;
+  listDiv.className = `${selected == 3 ? 'not-deployed pl-6 has-background-danger-light p-2' : 'not-deployed pl-6 p-2'} ${selected == 2 ? 'not-deployed pl-6 has-background-warning-light p-2' : 'not-deployed pl-6 p-2'}`;
   //handleExpandTask(item, list);
   renderSelect(newItem, selectedList);
   //renderTodoList(ListsController.getList(list.name))
@@ -144,7 +144,7 @@ const handleChange = (event, item, list) => {
 /////////////////////////////////
 
 function removeTodo(item, list) {
-  const selectedTodo = ListsController.getTodo(list.id, item.id); 
+  const selectedTodo = ListsController.getTodo(list.id, item.id);
 
   ListsController.removeTodoItem(list.id, selectedTodo)
   renderTodoList(ListsController.getList(list.id))
@@ -164,7 +164,7 @@ const todoListComponent = (todos) => {
     <ul id="taskList" class="menu-list"> 
     ${repeat(todos.items, (item) => item.title, (item, index) => html`
       <div class="is-flex is-flex-wrap-nowrap is-justify-content-space-between">
-        <li id="listitem${item.id}" class="is-flex-grow-1 ${item.priority == 3 ? 'has-background-danger-light' : ''} ${item.priority == 2 ? 'has-background-warning-light' : ''}">
+        <li id="listitem${item.id}" class="is-flex-grow-1 ${item.priority == 3 ? 'has-background-danger-light' : 'has-background-light'} ${item.priority == 2 ? 'has-background-warning-light' : 'has-background-light'}">
         <span class="material-symbols-outlined" style="cursor:pointer;" @click=${() => handleExpandTask(item, todos)}>
         expand_more
         </span>
@@ -179,8 +179,9 @@ const todoListComponent = (todos) => {
         </button>
       </div>
       <div id="todo${item.id}" 
-                            class="pl-6 is-hidden ${item.priority == 3 ? 'has-background-danger-light' : ''} ${item.priority == 2 ? 'has-background-warning-light' : ''}
-                              p-2" style="gap :5px;"></div>
+           class="not-deployed pl-6 ${item.priority == 3 ? 'has-background-danger-light' : ''} ${item.priority == 2 ? 'has-background-warning-light' : ''}
+                              p-2" style="gap :5px;">
+      </div>
       <br>
     `)}
     </ul>
@@ -265,4 +266,4 @@ function getRenderedList() {
 }
 
 
-export { renderTodoList, getRenderedList, renderEmptyTodoList, renderEarliestList};
+export { renderTodoList, getRenderedList, renderEmptyTodoList, renderEarliestList };

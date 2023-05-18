@@ -2,13 +2,18 @@
   border-radius: 8px;
 }
 
+#tasks ul {
+  overflow: auto;
+}
 #tasks ul li {
+  box-sizing: border-box;
   display: flex;
   gap: 10px;
   align-items: center;
   padding-top: 0.3rem;
   padding-bottom: 0.3rem;
   padding-left: 0.3rem;
+  overflow: hidden;
 }
 
 #projectlist ul li p {
@@ -46,4 +51,33 @@
 }
 .editable-title:hover {
   background-color: lightblue;
+}
+
+span {
+  z-index: 2;
+}
+
+li {
+  z-index: 5;
+}
+
+.deployed {
+  transform: scaleY(1) !important;
+  visibility: visible !important;
+  max-height: 100% !important;
+  transition: all 0.3s ease-in-out;
+}
+
+.not-deployed {
+  transform-origin: top;
+  transform: scaleY(0);
+  transition: all 0.3s ease-in-out;
+  position: relative;
+  visibility: hidden;
+  max-height: 0;
+  overflow: hidden;
+}
+
+.menu-list {
+  overflow: hidden;
 }/*# sourceMappingURL=main.css.map */
